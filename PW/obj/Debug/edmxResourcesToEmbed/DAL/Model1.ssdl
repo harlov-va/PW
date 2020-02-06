@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище PWModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="iwn_buyers">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fullName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="iwn_delivery">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="iwn_orders">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="amount" Type="int" Nullable="false" />
+    <Property Name="total" Type="money" Nullable="false" />
+    <Property Name="productsID" Type="int" Nullable="false" />
+    <Property Name="deliveryID" Type="int" Nullable="false" />
+    <Property Name="buyersID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="iwn_producers">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="iwn_products">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="guid" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="articul" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="price" Type="money" Nullable="false" />
+    <Property Name="currency" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="producerID" Type="int" Nullable="false" />
+    <Property Name="productTypeID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="iwn_productType">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK__iwn_order__buyer__1AD3FDA4">
+    <End Role="iwn_buyers" Type="Self.iwn_buyers" Multiplicity="1" />
+    <End Role="iwn_orders" Type="Self.iwn_orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="iwn_buyers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="iwn_orders">
+        <PropertyRef Name="buyersID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__iwn_order__deliv__19DFD96B">
+    <End Role="iwn_delivery" Type="Self.iwn_delivery" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="iwn_orders" Type="Self.iwn_orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="iwn_delivery">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="iwn_orders">
+        <PropertyRef Name="deliveryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__iwn_order__produ__18EBB532">
+    <End Role="iwn_products" Type="Self.iwn_products" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="iwn_orders" Type="Self.iwn_orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="iwn_products">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="iwn_orders">
+        <PropertyRef Name="productsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__iwn_produ__produ__114A936A">
+    <End Role="iwn_producers" Type="Self.iwn_producers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="iwn_products" Type="Self.iwn_products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="iwn_producers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="iwn_products">
+        <PropertyRef Name="producerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__iwn_produ__produ__123EB7A3">
+    <End Role="iwn_productType" Type="Self.iwn_productType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="iwn_products" Type="Self.iwn_products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="iwn_productType">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="iwn_products">
+        <PropertyRef Name="productTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище PWModelContainer">
+    <EntitySet Name="iwn_buyers" EntityType="Self.iwn_buyers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="iwn_delivery" EntityType="Self.iwn_delivery" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="iwn_orders" EntityType="Self.iwn_orders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="iwn_producers" EntityType="Self.iwn_producers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="iwn_products" EntityType="Self.iwn_products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="iwn_productType" EntityType="Self.iwn_productType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__iwn_order__buyer__1AD3FDA4" Association="Self.FK__iwn_order__buyer__1AD3FDA4">
+      <End Role="iwn_buyers" EntitySet="iwn_buyers" />
+      <End Role="iwn_orders" EntitySet="iwn_orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__iwn_order__deliv__19DFD96B" Association="Self.FK__iwn_order__deliv__19DFD96B">
+      <End Role="iwn_delivery" EntitySet="iwn_delivery" />
+      <End Role="iwn_orders" EntitySet="iwn_orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__iwn_order__produ__18EBB532" Association="Self.FK__iwn_order__produ__18EBB532">
+      <End Role="iwn_products" EntitySet="iwn_products" />
+      <End Role="iwn_orders" EntitySet="iwn_orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__iwn_produ__produ__114A936A" Association="Self.FK__iwn_produ__produ__114A936A">
+      <End Role="iwn_producers" EntitySet="iwn_producers" />
+      <End Role="iwn_products" EntitySet="iwn_products" />
+    </AssociationSet>
+    <AssociationSet Name="FK__iwn_produ__produ__123EB7A3" Association="Self.FK__iwn_produ__produ__123EB7A3">
+      <End Role="iwn_productType" EntitySet="iwn_productType" />
+      <End Role="iwn_products" EntitySet="iwn_products" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

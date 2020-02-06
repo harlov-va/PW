@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="207f90529c0f43848df5b82a8d2cc0b6" Name="Diagram1">
+        <EntityTypeShape EntityType="PWModel.iwn_producers" Width="1.5" PointX="2.125" PointY="1.375" />
+        <EntityTypeShape EntityType="PWModel.iwn_products" Width="1.5" PointX="4.375" PointY="0.75" />
+        <EntityTypeShape EntityType="PWModel.iwn_productType" Width="1.5" PointX="2.125" PointY="5.375" />
+        <EntityTypeShape EntityType="PWModel.sysdiagram" Width="1.5" PointX="8.5" PointY="5.5" />
+        <AssociationConnector Association="PWModel.FK__iwn_produ__produ__4D94879B" />
+        <AssociationConnector Association="PWModel.FK__iwn_produ__produ__4E88ABD4" />
+        <EntityTypeShape EntityType="PWModel.iwn_delivery" Width="1.5" PointX="4.375" PointY="5.75" />
+        <EntityTypeShape EntityType="PWModel.iwn_buyers" Width="1.5" PointX="11.625" PointY="3.5" />
+        <EntityTypeShape EntityType="PWModel.iwn_orders" Width="1.5" PointX="8.625" PointY="1.875" />
+        <AssociationConnector Association="PWModel.FK__iwn_order__buyer__0A9D95DB" />
+        <AssociationConnector Association="PWModel.FK__iwn_order__produ__09A971A2" />
+        <AssociationConnector Association="PWModel.FK__iwn_order__deliv__19DFD96B" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

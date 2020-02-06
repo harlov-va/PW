@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PWModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="PWEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="iwn_producers" EntityType="PWModel.iwn_producers" />
+    <EntitySet Name="iwn_products" EntityType="PWModel.iwn_products" />
+    <EntitySet Name="iwn_productType" EntityType="PWModel.iwn_productType" />
+    <EntitySet Name="sysdiagrams" EntityType="PWModel.sysdiagram" />
+    <AssociationSet Name="FK__iwn_produ__produ__4D94879B" Association="PWModel.FK__iwn_produ__produ__4D94879B">
+      <End Role="iwn_producers" EntitySet="iwn_producers" />
+      <End Role="iwn_products" EntitySet="iwn_products" />
+    </AssociationSet>
+    <AssociationSet Name="FK__iwn_produ__produ__4E88ABD4" Association="PWModel.FK__iwn_produ__produ__4E88ABD4">
+      <End Role="iwn_productType" EntitySet="iwn_productType" />
+      <End Role="iwn_products" EntitySet="iwn_products" />
+    </AssociationSet>
+    <EntitySet Name="iwn_delivery" EntityType="PWModel.iwn_delivery" />
+    <EntitySet Name="iwn_buyers" EntityType="PWModel.iwn_buyers" />
+    <EntitySet Name="iwn_orders" EntityType="PWModel.iwn_orders" />
+    <AssociationSet Name="FK__iwn_order__buyer__0A9D95DB" Association="PWModel.FK__iwn_order__buyer__0A9D95DB">
+      <End Role="iwn_buyers" EntitySet="iwn_buyers" />
+      <End Role="iwn_orders" EntitySet="iwn_orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__iwn_order__produ__09A971A2" Association="PWModel.FK__iwn_order__produ__09A971A2">
+      <End Role="iwn_products" EntitySet="iwn_products" />
+      <End Role="iwn_orders" EntitySet="iwn_orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__iwn_order__deliv__19DFD96B" Association="PWModel.FK__iwn_order__deliv__19DFD96B">
+      <End Role="iwn_delivery" EntitySet="iwn_delivery" />
+      <End Role="iwn_orders" EntitySet="iwn_orders" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="iwn_producers">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="iwn_products" Relationship="PWModel.FK__iwn_produ__produ__4D94879B" FromRole="iwn_producers" ToRole="iwn_products" />
+  </EntityType>
+  <EntityType Name="iwn_products">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="guid" Type="Guid" Nullable="false" />
+    <Property Name="articul" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="currency" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="producerID" Type="Int32" Nullable="false" />
+    <Property Name="productTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="iwn_producers" Relationship="PWModel.FK__iwn_produ__produ__4D94879B" FromRole="iwn_products" ToRole="iwn_producers" />
+    <NavigationProperty Name="iwn_productType" Relationship="PWModel.FK__iwn_produ__produ__4E88ABD4" FromRole="iwn_products" ToRole="iwn_productType" />
+    <NavigationProperty Name="iwn_orders" Relationship="PWModel.FK__iwn_order__produ__09A971A2" FromRole="iwn_products" ToRole="iwn_orders" />
+  </EntityType>
+  <EntityType Name="iwn_productType">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="iwn_products" Relationship="PWModel.FK__iwn_produ__produ__4E88ABD4" FromRole="iwn_productType" ToRole="iwn_products" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK__iwn_produ__produ__4D94879B">
+    <End Type="PWModel.iwn_producers" Role="iwn_producers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PWModel.iwn_products" Role="iwn_products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="iwn_producers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="iwn_products">
+        <PropertyRef Name="producerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__iwn_produ__produ__4E88ABD4">
+    <End Type="PWModel.iwn_productType" Role="iwn_productType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PWModel.iwn_products" Role="iwn_products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="iwn_productType">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="iwn_products">
+        <PropertyRef Name="productTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="iwn_delivery">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="iwn_orders" Relationship="PWModel.FK__iwn_order__deliv__19DFD96B" FromRole="iwn_delivery" ToRole="iwn_orders" />
+  </EntityType>
+  <EntityType Name="iwn_buyers">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fullName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="iwn_orders" Relationship="PWModel.FK__iwn_order__buyer__0A9D95DB" FromRole="iwn_buyers" ToRole="iwn_orders" />
+  </EntityType>
+  <EntityType Name="iwn_orders">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="amount" Type="Int32" Nullable="false" />
+    <Property Name="total" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="productsID" Type="Int32" Nullable="false" />
+    <Property Name="buyersID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="iwn_buyers" Relationship="PWModel.FK__iwn_order__buyer__0A9D95DB" FromRole="iwn_orders" ToRole="iwn_buyers" />
+    <NavigationProperty Name="iwn_products" Relationship="PWModel.FK__iwn_order__produ__09A971A2" FromRole="iwn_orders" ToRole="iwn_products" />
+    <Property Name="deliveryID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="iwn_delivery" Relationship="PWModel.FK__iwn_order__deliv__19DFD96B" FromRole="iwn_orders" ToRole="iwn_delivery" />
+  </EntityType>
+  <Association Name="FK__iwn_order__buyer__0A9D95DB">
+    <End Type="PWModel.iwn_buyers" Role="iwn_buyers" Multiplicity="1" />
+    <End Type="PWModel.iwn_orders" Role="iwn_orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="iwn_buyers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="iwn_orders">
+        <PropertyRef Name="buyersID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__iwn_order__produ__09A971A2">
+    <End Type="PWModel.iwn_products" Role="iwn_products" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PWModel.iwn_orders" Role="iwn_orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="iwn_products">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="iwn_orders">
+        <PropertyRef Name="productsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__iwn_order__deliv__19DFD96B">
+    <End Type="PWModel.iwn_delivery" Role="iwn_delivery" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="PWModel.iwn_orders" Role="iwn_orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="iwn_delivery">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="iwn_orders">
+        <PropertyRef Name="deliveryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
